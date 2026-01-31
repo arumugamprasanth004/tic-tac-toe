@@ -15,6 +15,7 @@ class GameState {
         this.currentPlayer = 'X';
         this.gameStatus = 'playing'; // 'playing', 'won', 'draw'
         this.winner = null;
+        this.winningPattern = null;
     }
 
     /**
@@ -47,6 +48,14 @@ class GameState {
      */
     getWinner() {
         return this.winner;
+    }
+
+    /**
+     * Get the winning pattern if game is won
+     * @returns {Array|null} Winning pattern array or null
+     */
+    getWinningPattern() {
+        return this.winningPattern;
     }
 
     /**
@@ -123,10 +132,11 @@ class GameState {
      */
     updateGameStatus() {
         // Check for winner
-        const winner = window.winDetector.checkForWin(this.board);
-        if (winner) {
+        const winResult = window.winDetector.checkForWin(this.board);
+        if (winResult) {
             this.gameStatus = 'won';
-            this.winner = winner;
+            this.winner = winResult.winner;
+            this.winningPattern = winResult.winningPattern;
             return;
         }
 

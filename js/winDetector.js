@@ -20,7 +20,7 @@ class WinDetector {
     /**
      * Check if there's a winner on the board
      * @param {Array} board - Current board state
-     * @returns {string|null} Winner ('X' or 'O') or null if no winner
+     * @returns {Object|null} Winner object with player and pattern, or null if no winner
      */
     checkForWin(board) {
         for (const pattern of this.winPatterns) {
@@ -28,11 +28,24 @@ class WinDetector {
             
             // Check if all three positions have the same non-null value
             if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-                return board[a];
+                return {
+                    winner: board[a],
+                    winningPattern: pattern
+                };
             }
         }
         
         return null;
+    }
+
+    /**
+     * Check if there's a winner on the board (legacy method for backward compatibility)
+     * @param {Array} board - Current board state
+     * @returns {string|null} Winner ('X' or 'O') or null if no winner
+     */
+    checkForWinLegacy(board) {
+        const result = this.checkForWin(board);
+        return result ? result.winner : null;
     }
 
     /**

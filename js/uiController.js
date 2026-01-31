@@ -72,6 +72,45 @@ class UIController {
     }
 
     /**
+     * Show celebration overlay with prize box and emojis
+     */
+    showCelebration() {
+        const winner = this.gameState.getWinner();
+        
+        // Create celebration overlay
+        const overlay = document.createElement('div');
+        overlay.className = 'celebration-overlay';
+        
+        // Create prize box
+        const prizeBox = document.createElement('div');
+        prizeBox.className = 'prize-box';
+        
+        // Add celebration content
+        prizeBox.innerHTML = `
+            <h2>🏆 Player ${winner} Wins! 🏆</h2>
+            <div class="emojis">🎉 🎊 😄 🎈 ✨</div>
+            <p>Congratulations on your victory!</p>
+        `;
+        
+        overlay.appendChild(prizeBox);
+        document.body.appendChild(overlay);
+        
+        // Auto-remove celebration after 3 seconds
+        setTimeout(() => {
+            if (overlay.parentNode) {
+                overlay.parentNode.removeChild(overlay);
+            }
+        }, 3000);
+        
+        // Allow clicking to close early
+        overlay.addEventListener('click', () => {
+            if (overlay.parentNode) {
+                overlay.parentNode.removeChild(overlay);
+            }
+        });
+    }
+
+    /**
      * Show a custom message
      * @param {string} message - Message to display
      * @param {string} type - Message type ('winner', 'draw', or default)
@@ -94,6 +133,12 @@ class UIController {
     clearMessages() {
         this.gameStatusElement.textContent = '';
         this.gameStatusElement.classList.remove('winner', 'draw');
+        
+        // Remove any celebration overlays
+        const existingOverlay = document.querySelector('.celebration-overlay');
+        if (existingOverlay) {
+            existingOverlay.parentNode.removeChild(existingOverlay);
+        }
     }
 
     /**
@@ -105,6 +150,9 @@ class UIController {
         
         // Clear board display
         window.gameBoard.clearBoard();
+        
+        // Clear messages and celebrations
+        this.clearMessages();
         
         // Update UI
         this.updateDisplay();

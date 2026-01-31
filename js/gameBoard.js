@@ -9,7 +9,7 @@ class GameBoard {
         this.boardElement = document.getElementById('game-board');
         this.cells = this.boardElement.querySelectorAll('.cell');
         
-      //  this.bindEvents();
+        this.bindEvents();
     }
 
     /**
@@ -35,6 +35,12 @@ class GameBoard {
             
             // Update UI status
             this.uiController.updateDisplay();
+            
+            // Check if game is won and highlight winning cells
+            if (this.gameState.getGameStatus() === 'won') {
+                this.highlightWinningCells();
+                this.uiController.showCelebration();
+            }
         }
     }
 
@@ -49,7 +55,7 @@ class GameBoard {
             
             // Clear previous content and classes
             cell.textContent = '';
-            cell.classList.remove('x', 'o');
+            cell.classList.remove('x', 'o', 'winning');
             
             // Add content and styling if cell has a value
             if (value) {
@@ -60,12 +66,24 @@ class GameBoard {
     }
 
     /**
+     * Highlight the winning cells
+     */
+    highlightWinningCells() {
+        const winningPattern = this.gameState.getWinningPattern();
+        if (winningPattern) {
+            winningPattern.forEach(index => {
+                this.cells[index].classList.add('winning');
+            });
+        }
+    }
+
+    /**
      * Clear the board display
      */
     clearBoard() {
         this.cells.forEach(cell => {
             cell.textContent = '';
-            cell.classList.remove('x', 'o');
+            cell.classList.remove('x', 'o', 'winning');
         });
     }
 

@@ -1,0 +1,11 @@
+{
+  "name": "tic-tac-toe-agent",
+  "description": "AI Exposure POC agent with GitHub MCP access",
+  "tools": [
+    {
+      "type": "mcp",
+      "name": "github",
+      "description": "Access GitHub repository commits, diffs, and history"
+    }
+  ]
+}

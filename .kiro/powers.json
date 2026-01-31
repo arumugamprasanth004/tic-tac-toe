@@ -1,0 +1,9 @@
+{
+  "powers": [
+    {
+      "type": "mcp",
+      "name": "github",
+      "description": "Allows the agent to access GitHub via MCP"
+    }
+  ]
+}

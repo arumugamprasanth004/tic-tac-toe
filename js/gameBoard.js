@@ -9,7 +9,7 @@ class GameBoard {
         this.boardElement = document.getElementById('game-board');
         this.cells = this.boardElement.querySelectorAll('.cell');
         
-        this.bindEvents();
+      //  this.bindEvents();
     }
 
     /**
